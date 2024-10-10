@@ -1,23 +1,26 @@
+#
 class CSN_frånvaro:
+    """En klass för att hantera och spåra studentfrånvaro relaterad till CSN."""
+
     def __init__(self, max_frånvaro, missad_lektion=0):
         self.max_frånvaro = int(max_frånvaro)
         self.missad_lektion = int(missad_lektion)
 
     def lägg_till_sen_tid(self, sen_tid):
+        """subtraherar tiden som är inmatad för hur sent du var till lektionen"""
         self.max_frånvaro -= int(sen_tid)
+        """subtraherar bort 80 minuter från CSN baserat på hur många missade lektioner """
 
     def lägg_till_missad_lektion(self, lektioner=1):
         self.missad_lektion += lektioner
         self.max_frånvaro -= 80
-
-    def lägg_till_tid(self, extra_tid):
-        self.max_frånvaro += extra_tid
 
 
 CSN = CSN_frånvaro("240", "0")
 
 
 def sen_ankomst(CSN_koll):
+    """tar förseningstiden och tar bort den från den accepterade frånvaro tid"""
     tid = input("Hur mycket blev du sen? (i minuter): ")
     if CSN_koll:
         CSN_koll[0].lägg_till_sen_tid(tid)
@@ -26,12 +29,19 @@ def sen_ankomst(CSN_koll):
 
 
 def missad_lektion(CSN_koll):
+    """tar hur många lektioner du missat och subtraherar 80 min från accepterad frånvaro tid"""
     if CSN_koll:
         CSN_koll[0].lägg_till_missad_lektion()
         print("En missad lektion har lagts till.")
 
 
 def main():
+    """
+    Funktion som kör CSN kollen för att spåra frånvaro genom att
+    -lägga till försenad tid
+    - lägga till hur mycket lektioner man missat
+    - uppdaterar hur mycket tillåten frånvaro man har innan man förlorar CSN
+    """
     CSN_koll = [CSN]
 
     while True:
@@ -41,9 +51,9 @@ def main():
               frånvaro för att se hur mycket tid du har kvar innan du riskerar att 
               förlora ditt CSN-bidrag. Du måste ha 240 minuter ogiltig 
               frånvaro för att förlora CSN
-                - Kolla hur många minuter sen du varit och hur många lektioner 
-                - Ange hur många minuter du har varit sen eller hur många lektioner du har missat.
-                - få ut hur mycket tid du har kvar innan du förlorar ditt CSN
+                - Kolla hur många min accepterad frånvaro tid som finns kvar
+                - Ange hur många min du har varit sen
+                - Ange hur många lektioner du har missat
               """)
         print("1.Visa din nuvarande CSN tid som du har kvar:")
         print("2. lägg till sen ankomst tid")
